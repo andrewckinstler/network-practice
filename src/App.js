@@ -34,7 +34,7 @@ class App extends Component {
 
     fetch('http://localhost:3001/api/v1/animals', options)
       .then(res => res.json())
-      .then(data => this.setState({ ...this.state.animals, animal }))
+      .then(data => this.setState({ animals: [...this.state.animals, animal] }))
   }
 
   deleteAnimal = id => {
@@ -46,7 +46,10 @@ class App extends Component {
     }
     
     fetch(`http://localhost:3001/api/v1/animals/${id}`, options)
-      .then(data => console.log(data))
+      .then(data => {
+        const newAnimalList = this.state.animals.filter(animal => animal.id !== id)
+        this.setState({ animals: newAnimalList})
+      })
   }
 
   render() {
