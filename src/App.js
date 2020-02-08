@@ -1,26 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { Form } from './Form'
+import { AnimalContainer } from './AnimalContainer'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super() 
+    this.state = {
+      isLoading: true,
+      animals: ''
+    }
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3001/api/v1/animals')
+      .then(res => res.json())
+      .then(data => this.setState({ animals: data, isLoading: false }))
+  }
+
+  submitAnimal = animal => {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        "id": Date.now(),
+        "name": animal.name,
+        "diet": animal.diet,
+        "fun_fact": animal.fun_fact
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    fetch('http://localhost:3001/api/v1/animals', options)
+      .then(res => res.json())
+      .then(data => this.setState({ ...this.state.animals, animal }))
+  }
+
+  deleteAnimal = id => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    
+    fetch(`http://localhost:3001/api/v1/animals/${id}`, options)
+      .then(data => console.log(data))
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Animals</h1>
+        <Form submitAnimal={this.submitAnimal} />
+        {
+          !this.state.isLoading
+          ? <AnimalContainer 
+              animals={this.state.animals}
+              deleteAnimal={this.deleteAnimal}
+            />
+          : <h3>loading</h3>
+        }
+      </div>
+    )
+  }
+
 }
 
 export default App;
