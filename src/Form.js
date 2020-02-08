@@ -24,7 +24,7 @@ export class Form extends Component {
 
   render() {
     return (
-      <div>
+      <div className='form-box'>
         <input 
           type='text'
           name='name'
@@ -46,7 +46,7 @@ export class Form extends Component {
           value={this.state.fun_fact}
           onChange={this.handleChange}
         />
-        <button onClick={this.sendAnimal}>Submit</button>
+        <button className='submit' onClick={this.sendAnimal}>Submit</button>
       </div>
     )
   }

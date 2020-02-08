@@ -22,7 +22,7 @@ class App extends Component {
     const options = {
       method: 'POST',
       body: JSON.stringify({
-        "id": Date.now(),
+        "id": Math.random(),
         "name": animal.name,
         "diet": animal.diet,
         "fun_fact": animal.fun_fact
@@ -54,8 +54,10 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Animals</h1>
+      <div className='app'>
+        <header>
+          <h1>Animals</h1>
+        </header>
         <Form submitAnimal={this.submitAnimal} />
         {
           !this.state.isLoading

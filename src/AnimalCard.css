@@ -1,0 +1,11 @@
+.card {
+  border: 2px solid #3477eb;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  width: 200px;
+}
+
+h2 {
+  margin-bottom: 7px;
+}
